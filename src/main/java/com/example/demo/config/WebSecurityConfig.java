@@ -28,8 +28,8 @@ public class WebSecurityConfig {
 
     /**
      * 通过数据操作用户名和密码
-     * 用这种@Bean的方法把对象交给spring管理，失败了。不知道为什么，猜测跟mybatis-plus有关。
-     * 先用@Component把对象交给spring管理。
+     * todo//用这种@Bean的方法把对象交给spring管理，失败了。不知道为什么，猜测跟mybatis-plus有关。
+     * todo//先用@Component把对象交给spring管理。
      */
     /*@Bean
     public UserDetailsService userDetailsService() {
