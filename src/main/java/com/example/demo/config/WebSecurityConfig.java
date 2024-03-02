@@ -26,10 +26,25 @@ public class WebSecurityConfig {
 
         http.formLogin(form ->{
             form.loginPage("/login").permitAll() //登录页面无需授权即可访问
-                    .usernameParameter("username") //自定义表单用户名参数，默认是username
-                    .passwordParameter("password") //自定义表单密码参数，默认是password
-                    .failureUrl("/login?error"); //登录失败的返回地址
+                .usernameParameter("username") //自定义表单用户名参数，默认是username
+                .passwordParameter("password") //自定义表单密码参数，默认是password
+                .failureUrl("/login?error")//登录失败的返回地址
+                .successHandler(new MyAuthenticationSuccessHandler()) //认证成功时的处理
+                .failureHandler(new MyAuthenticationFailureHandler()) //认证失败时的处理
+            ;
         });//使用表单授权方式
+
+        http.logout(logout ->{
+            logout.logoutSuccessHandler(new MyLogoutSuccessHandler())  //注销成功时的处理
+            ;
+        });
+
+
+        http.exceptionHandling(exception ->{
+           exception.authenticationEntryPoint(new MyAuthenticationEntryPoint());//请求未认证的接口
+        });
+
+        http.cors(withDefaults());//跨域
         return http.build();
     }
 
