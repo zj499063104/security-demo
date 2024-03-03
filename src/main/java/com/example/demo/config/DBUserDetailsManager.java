@@ -26,12 +26,15 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
         if (user == null) {
             throw new UsernameNotFoundException(username);
         } else {
-            Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
+            Collection<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(()->"USER_LIST");//权限
+            authorities.add(()->"USER_ADD");//权限
+            authorities.add(()->"ROLE_ADMIN");//角色  ps:角色和权限用同一个属性存储，用户拥有"ADMIN"角色，设置时要在前面加上"ROLE_"，用于区分角色
             return new User(user.getUsername()
                     , user.getPassword()
                     , user.getEnabled()
-                    , true //user.isAccountNonExpired() //户账号是否过期
-                    , true //user.isCredentialsNonExpired() //用户凭证是否过期
+                    , true //user.isAccountNonExpired() //用户账号是否未过期
+                    , true //user.isCredentialsNonExpired() //用户凭证是否未过期
                     , true //user.isAccountNonLocked() //用户是否未被锁定
                     , authorities //user.getAuthorities() //权限列表
             );
