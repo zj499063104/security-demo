@@ -45,6 +45,12 @@ public class WebSecurityConfig {
         });
 
         http.cors(withDefaults());//跨域
+
+        //会话管理
+        http.sessionManagement(session ->{
+            session.maximumSessions(1)
+                    .expiredSessionStrategy(new MySessionInformationExpiredStrategy());
+        });
         return http.build();
     }
 
